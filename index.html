@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBX网站</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@300;500&display=swap');
+
+        :root {
+            --neon-green: #0ff;
+            --cyber-purple: #7028e4;
+            --matrix-green: #00ff4c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            font-family: 'Roboto Mono', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 动态网格背景 */
+        body::before {
+            content: '';
+            position: fixed;
+            width: 200vw;
+            height: 200vh;
+            background: 
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(180deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: moveBg 100s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes moveBg {
+            0% { transform: translate(-50%, -50%); }
+            100% { transform: translate(0, 0); }
+        }
+
+        nav {
+            background: linear-gradient(45deg, #000 30%, #1a1a1a 100%);
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--neon-green);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-green);
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.5s ease-in-out;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+        }
+
+        .section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--neon-green), var(--cyber-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-green);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        h2::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--matrix-green);
+            animation: blink 1s infinite;
+        }
+
+        .exploit-list {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .exploit-item {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .exploit-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .exploit-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(0, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .exploit-item:hover::before {
+            left: 100%;
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, var(--neon-green), #0066ff);
+            color: #000;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+            margin-top: 1rem;
+        }
+
+        .download-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(45deg);
+            transition: 0.5s;
+        }
+
+        .download-btn:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        .download-btn:hover::after {
+            left: 120%;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--neon-green);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        ol {
+            padding-left: 2rem;
+            line-height: 2;
+        }
+
+        li::marker {
+            color: var(--neon-green);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <h1>// RBX_EXPLOITS</h1>
+            <div class="nav-links">
+                <a href="#" onclick="showSection('home')">首页</a>
+                <a href="#" onclick="showSection('downloads')">下载中心</a>
+                <a href="#" onclick="showSection('tutorial')">教程</a>
+                <a href="#" onclick="showSection('support')">关于</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- 主页 -->
+        <section id="home" class="section active">
+            <h2>最强大的注入器下载</h2>
+            <div class="exploit-list">
+                <div class="exploit-item">
+                    <h3>Argon</h3>
+                    <p>Version: v1.8 | 状态: 可用</p>
+                    <button class="download-btn" onclick="downloadFile('hydrogen.zip')">DOWNLOAD</button>
+                </div>
+                <div class="exploit-item">
+                    <h3>Ronix</h3>
+                    <p>Version: v3 | 状态: 可用</p>
+                    <button class="download-btn" onclick="downloadFile('electron.zip')">DOWNLOAD</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 下载页面 -->
+        <section id="downloads" class="section">
+            <h2>下载中心</h2>
+            <div class="exploit-list">
+                <div class="exploit-item">
+                    <h3>Roblox脚本合集</h3>
+                    <p>Version: v3.2.1 | 更新日期：25/3/1</p>
+                    <button class="download-btn" onclick="downloadFile('hydrogen.zip')">DOWNLOAD</button>
+                </div>
+                <div class="exploit-item">
+                    <h3>Atlantis</h3>
+                    <p>Version: v3 | 状态：可用</p>
+                    <button class="download-btn" onclick="downloadFile('electron.zip')">DOWNLOAD</button>
+                </div>
+                  <div class="exploit-item">
+                    <h3>Atlantis</h3>
+                    <p>Version: v3 | 状态：可用</p>
+                    <button class="download-btn" onclick="downloadFile('electron.zip')">DOWNLOAD</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 使用教程 -->
+        <section id="tutorial" class="section">
+            <h2>注意事项</h2>
+            <div class="exploit-item">
+                <h3>注意:</h3>
+                <ol>
+                    <li>关闭杀毒软件</li>
+                    <li>有密钥注入器（Argon等）别绕过</li>
+                    <li>执行大型脚本游戏会卡顿，请耐心等待</li>
+                    <li>是挂三分毒，谨慎使用</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 支持 -->
+        <section id="support" class="section">
+            <h2>关于</h2>
+            <div class="exploit-item">
+                <p>网站制作仅有2人完成</p>
+                <p>反馈邮箱：theyin345@outlook.com</p>
+                <p>网站设计---清也</p>
+                <p>内容提供---豳添</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>// 总体状态：可用 | v2.0.0 | © 2025 RBX EXPLOITS</p>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            setTimeout(() => {
+                document.getElementById(sectionId).classList.add('active');
+            }, 50);
+        }
+
+        function downloadFile(filename) {
+            const link = document.createElement('a');
+            link.href = `./downloads/${filename}`;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 添加下载动效
+            const btn = event.target;
+            btn.style.background = 'linear-gradient(45deg, #00ff88, #0066ff)';
+            setTimeout(() => {
+                btn.style.background = 'linear-gradient(45deg, var(--neon-green), #0066ff)';
+            }, 300);
+        }
+    </script>
+</body>
+</html>
